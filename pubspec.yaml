@@ -39,6 +39,8 @@ dependencies:
   hexcolor: ^1.0.4
   flutter_secure_storage: ^3.3.3
   google_place: ^0.3.3
+  geolocator: ^6.0.0
+  money2: ^1.4.3
 
 dev_dependencies:
   flutter_test:
@@ -59,6 +61,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/sign/
+    - assets/images/transactions/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

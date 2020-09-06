@@ -56,7 +56,7 @@ class _LoginState extends State<Login> {
                         icon: Icon(Icons.lock),
                         obscure: true,
                         onSaved: (input) => _password = input,
-                        validator: (input) => input.isEmpty ? "*Required" : null,
+                        validator: (input) => input.isEmpty ? "*Este campo es requerido" : null,
                         hint: "Contraseña",
                       ),
                       SizedBox(height: 10.0),

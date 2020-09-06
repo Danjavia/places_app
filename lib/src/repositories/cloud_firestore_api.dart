@@ -19,16 +19,10 @@ class CloudFirestoreAPI {
 
     return await ref.set({
       'uid': user.id,
-      'name': user.name ?? '',
       'email': user.email ?? '',
-      'identification': user.identification ?? '',
-      'phoneNumber': user.phoneNumber,
-      'countryCode': '+57',
       'country': 'CO',
-      'currency': 'COP',
       'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
       'updatedAt': DateTime.now().millisecondsSinceEpoch.toString(),
-      'userType': 'CUSTOMER'
     });
   }
 
