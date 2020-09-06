@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class User {
+class AppUser {
   final String id;
   final String name;
   final String email;
@@ -16,7 +16,7 @@ class User {
   final List<dynamic> soatNotifications;
   final List<dynamic> rtmNotifications;
 
-  User({
+  AppUser({
     Key key,
     @required this.id,
     @required this.phoneNumber,
@@ -33,9 +33,9 @@ class User {
     this.rtmNotifications,
   });
 
-  factory User.fromMap(Map data) {
+  factory AppUser.fromMap(Map data) {
     data = data ?? { };
-    return User(
+    return AppUser(
       id: data['id'],
       name: data['name'] ?? '',
       phoneNumber: data['phoneNumber'] ?? '',
@@ -49,11 +49,11 @@ class User {
     );
   }
 
-  factory User.fromFirestore(DocumentSnapshot doc) {
+  factory AppUser.fromFirestore(DocumentSnapshot doc) {
     doc = doc ?? { };
     Map data = doc.data as Map;
 
-    return User(
+    return AppUser(
       id: doc.id,
       name: data['name'] ?? '',
       phoneNumber: data['phoneNumber'] ?? '',

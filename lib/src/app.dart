@@ -35,7 +35,7 @@ class _AppState extends State<App> {
     ]);
 
     return StreamBuilder(
-      stream: FirebaseAuth.instance.authStateChanges(),
+      stream: FirebaseAuth.instance.onAuthStateChanged,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         switch(snapshot.connectionState) {
           case ConnectionState.waiting:
