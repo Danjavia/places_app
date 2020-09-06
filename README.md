@@ -1,6 +1,14 @@
-# custom_app
+# PLACES APP
 
-A new Flutter application.
+A flutter application for test
+
+this project includes
+
+- [X] Signup functionality
+- [X] login functionality
+- [X] logout functionality
+- [X] transactions view
+- [X] Home view
 
 ## Getting Started
 
