@@ -1,4 +1,6 @@
+import 'package:custom_app/src/screens/home/home.dart';
 import 'package:custom_app/src/screens/sign/login.dart';
+import 'package:custom_app/src/utils/helpers.dart';
 import 'package:custom_app/src/widgets/custom_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -44,9 +46,9 @@ class _SignState extends State<Sign> {
                         onSaved: (input) {
                           _email = input;
                         },
-//                validator: emailValidator,
+                        validator: emailValidator,
                         icon: Icon(Icons.email),
-                        hint: "EMAIL",
+                        hint: "Correo Electrónico",
                       ),
                       SizedBox(height: 10.0),
                       CustomTextField(
@@ -54,10 +56,10 @@ class _SignState extends State<Sign> {
                         obscure: true,
                         onSaved: (input) => _password = input,
                         validator: (input) => input.isEmpty ? "*Required" : null,
-                        hint: "PASSWORD",
+                        hint: "Contraseña",
                       ),
                       SizedBox(height: 10.0),
-                      filledButton('Registrarme', Colors.white, Colors.deepPurple, Colors.deepPurple, Colors.white, _login),
+                      filledButton('Registrarme', Colors.white, Colors.deepPurple, Colors.deepPurple, Colors.white, _signup),
                       SizedBox(height: 10.0),
                       FlatButton(
                         child: Text(
@@ -67,7 +69,7 @@ class _SignState extends State<Sign> {
                           ),
                         ),
                         onPressed: () {
-                          // Redirect to Home
+                          // Redirect to Login
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(builder: (context) => Login()),
@@ -107,23 +109,29 @@ class _SignState extends State<Sign> {
     );
   }
 
-  void _login() async {
+  void _signup() async {
     final FormState form = _formKey.currentState;
     if (_formKey.currentState.validate()) {
       form.save();
-      _sheetController.setState(() {
-        _loading = true;
+      setState(() {
+        this._loading = true;
       });
       try {
-        UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
-        Navigator.of(context).pushReplacementNamed('/home');
+        UserCredential user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
+        print(user);
+        // Redirect to Sign
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => Home(user: user,)),
+              (_) => false
+        );
       } catch (error) {
         switch (error.code) {
-          case "ERROR_USER_NOT_FOUND":
+          case "user-not-found":
             {
-              _sheetController.setState(() {
+              setState(() {
                 errorMsg =
-                "There is no user with such entries. Please try again.";
+                "El usuario ingresado no existe";
 
                 _loading = false;
               });
@@ -138,10 +146,10 @@ class _SignState extends State<Sign> {
                   });
             }
             break;
-          case "ERROR_WRONG_PASSWORD":
+          case "wrong-password":
             {
-              _sheetController.setState(() {
-                errorMsg = "Password doesn\'t match your email.";
+              setState(() {
+                errorMsg = "La contraseña es incorrecta";
                 _loading = false;
               });
               showDialog(
@@ -157,8 +165,9 @@ class _SignState extends State<Sign> {
             break;
           default:
             {
-              _sheetController.setState(() {
-                errorMsg = "";
+              print(error.code);
+              setState(() {
+                errorMsg = error.code;
               });
             }
         }

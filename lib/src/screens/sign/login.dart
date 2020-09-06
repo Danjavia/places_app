@@ -1,4 +1,6 @@
+import 'package:custom_app/src/screens/home/home.dart';
 import 'package:custom_app/src/screens/sign/signup.dart';
+import 'package:custom_app/src/utils/helpers.dart';
 import 'package:custom_app/src/widgets/custom_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,9 +47,9 @@ class _LoginState extends State<Login> {
                         onSaved: (input) {
                           _email = input;
                         },
-//                validator: emailValidator,
+                        validator: emailValidator,
                         icon: Icon(Icons.email),
-                        hint: "EMAIL",
+                        hint: "Correo Electrónico",
                       ),
                       SizedBox(height: 10.0),
                       CustomTextField(
@@ -55,7 +57,7 @@ class _LoginState extends State<Login> {
                         obscure: true,
                         onSaved: (input) => _password = input,
                         validator: (input) => input.isEmpty ? "*Required" : null,
-                        hint: "PASSWORD",
+                        hint: "Contraseña",
                       ),
                       SizedBox(height: 10.0),
                       filledButton('Ingresar', Colors.white, Colors.deepPurple, Colors.deepPurple, Colors.white, _login),
@@ -64,11 +66,11 @@ class _LoginState extends State<Login> {
                         child: Text(
                           'Crear mi cuenta',
                           style: GoogleFonts.overpass(
-                              fontSize: 18.0
+                            fontSize: 18.0
                           ),
                         ),
                         onPressed: () {
-                          // Redirect to Home
+                          // Redirect to Sign
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(builder: (context) => Sign()),
@@ -112,19 +114,25 @@ class _LoginState extends State<Login> {
     final FormState form = _formKey.currentState;
     if (_formKey.currentState.validate()) {
       form.save();
-      _sheetController.setState(() {
-        _loading = true;
+      setState(() {
+        this._loading = true;
       });
       try {
         UserCredential user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
-        Navigator.of(context).pushReplacementNamed('/home');
+        print(user);
+        // Redirect to Sign
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => Home(user: user,)),
+              (_) => false
+        );
       } catch (error) {
         switch (error.code) {
-          case "ERROR_USER_NOT_FOUND":
+          case "user-not-found":
             {
-              _sheetController.setState(() {
+              setState(() {
                 errorMsg =
-                "There is no user with such entries. Please try again.";
+                "El usuario ingresado no existe";
 
                 _loading = false;
               });
@@ -139,10 +147,10 @@ class _LoginState extends State<Login> {
                   });
             }
             break;
-          case "ERROR_WRONG_PASSWORD":
+          case "wrong-password":
             {
-              _sheetController.setState(() {
-                errorMsg = "Password doesn\'t match your email.";
+              setState(() {
+                errorMsg = "La contraseña es incorrecta";
                 _loading = false;
               });
               showDialog(
@@ -158,8 +166,9 @@ class _LoginState extends State<Login> {
             break;
           default:
             {
-              _sheetController.setState(() {
-                errorMsg = "";
+              print(error.code);
+              setState(() {
+                errorMsg = error.code;
               });
             }
         }

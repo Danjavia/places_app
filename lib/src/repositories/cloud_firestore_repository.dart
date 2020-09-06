@@ -1,7 +1,7 @@
 import 'package:custom_app/src/models/user.dart';
 import 'package:custom_app/src/repositories/cloud_firestore_api.dart';
 
-class CloudFirestoreRespository {
+class CloudFirestoreRepository {
   final _cloudFirestoreAPI = CloudFirestoreAPI();
 
   // Create new user

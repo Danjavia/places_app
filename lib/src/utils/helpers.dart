@@ -46,4 +46,15 @@ Future<bool> showModal(BuildContext context, String title, Widget content, actio
 }
 
 // Generate Firestore Id
-String generateId() => Firestore.instance.collection('').document().documentID;
+String generateId() => Firestore.instance.collection('').doc().id;
+
+String emailValidator(String value) {
+  Pattern pattern =
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+  RegExp regex = new RegExp(pattern);
+  if (value.isEmpty) return '*Required';
+  if (!regex.hasMatch(value))
+    return '*Enter a valid email';
+  else
+    return null;
+}
