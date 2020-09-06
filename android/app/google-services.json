@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "278886858999",
+    "firebase_url": "https://customapp-921e1.firebaseio.com",
+    "project_id": "customapp-921e1",
+    "storage_bucket": "customapp-921e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278886858999:android:981bb31dc43c68ad7dd3f2",
+        "android_client_info": {
+          "package_name": "com.customapp.custom_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "278886858999-fejif0783ehn79jkpi47u80j2meojivf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJqwfZ_EaOw26_rOOR6iQ6-Ok5Clj8EzI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "278886858999-fejif0783ehn79jkpi47u80j2meojivf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
